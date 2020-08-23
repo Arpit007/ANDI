@@ -5,7 +5,7 @@ Another Nginx Docker Image
 
 ## Why another Nginx Docker Image?
 
-There are several Nginx docker images available, but sometimes we need to tweak in the tiniest details of Nginx. This utility allows building Nginx from its sources with custom configuration and minimal docker image size.
+There are several Nginx docker images available, but sometimes we need to tweak in the tiniest details of Nginx. This utility allows building Nginx from its sources with custom configuration and create minimal size docker image (`19.7M`).
 
 <br/>
 
