@@ -11,14 +11,15 @@ RUN apk update \
         openssl-dev \
         pcre-dev \
         zlib-dev \
-        geoip-dev
+        geoip-dev \
+    && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
 COPY build.sh .
 
-RUN chmod +x build.sh && \
-    ./build.sh
+RUN chmod +x build.sh \
+    && ./build.sh
 
 
 # Final Stage
@@ -37,21 +38,20 @@ RUN apk update \
         pcre \
         zlib \
         geoip \
-    && mkdir -p /app
-
-WORKDIR /app
-
-RUN addgroup -g 101 -S nginx \
+    && rm -rf /var/cache/apk/* \
+    && mkdir -p /app /tmp/nginx/cache/body /tmp/nginx/cache/proxy \
+    && addgroup -g 101 -S nginx \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx 
 
 USER nginx
+
+WORKDIR /app
 
 COPY --from=build --chown=nginx:nginx /app/out /
 
 COPY nginx.conf /usr/share/nginx/conf/nginx.conf
 
-RUN ln -s /dev/stdout /var/log/nginx/access.log && \
-    ln -s /dev/stderr /var/log/nginx/error.log && \
-    mkdir -p /tmp/nginx/cache/body /tmp/nginx/cache/proxy
+RUN ln -s /dev/stdout /var/log/nginx/access.log \
+    && ln -s /dev/stderr /var/log/nginx/error.log
 
 CMD ["nginx", "-g", "daemon off;"]

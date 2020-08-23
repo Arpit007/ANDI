@@ -4,7 +4,7 @@ mkdir -p /app/src /app/out
 
 echo "Fetching Nginx ${NGINX_VERSION}"
 
-wget -c http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -xz -C src --strip-components=1
+wget -c https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -xz -C src --strip-components=1
 
 cd src
 
